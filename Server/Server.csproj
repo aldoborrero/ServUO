@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<OutputType>Exe</OutputType>
 		<AssemblyName>ServUO</AssemblyName>
 		<ApplicationIcon>servuo.ico</ApplicationIcon>
@@ -25,4 +25,5 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Ultima\Ultima.csproj" />
 	</ItemGroup>
+  <ItemGroup><PackageReference Include="System.Diagnostics.PerformanceCounter" Version="10.0.0" /><PackageReference Include="System.Diagnostics.EventLog" Version="10.0.0" /></ItemGroup>
 </Project>

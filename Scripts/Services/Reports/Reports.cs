@@ -408,13 +408,7 @@ namespace Server.Engines.Reports
             m_StatsHistory.Save();
             m_StaffHistory.Save();
 
-            HtmlRenderer renderer = new HtmlRenderer("stats", (Snapshot)state, m_StatsHistory);
-            renderer.Render();
-            renderer.Upload();
-
-            renderer = new HtmlRenderer("staff", m_StaffHistory);
-            renderer.Render();
-            renderer.Upload();
+            // HTML/graph rendering needs System.Web and GDI+ (Windows-only on .NET).
         }
                 
         public class SkillDistribution : IComparable

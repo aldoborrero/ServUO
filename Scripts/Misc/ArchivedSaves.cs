@@ -208,10 +208,19 @@ namespace Server.Misc
 
             _Sync.Reset();
 
-            var t = _Pack.BeginInvoke(source, EndPack, source);
+            // Delegate.BeginInvoke is not supported on .NET (Core).
+            var t = System.Threading.Tasks.Task.Run(() => _Pack(source));
 
             lock (_TaskRoot)
                 _Tasks.Add(t);
+
+            t.ContinueWith(done =>
+            {
+                lock (_TaskRoot)
+                    _Tasks.Remove(done);
+
+                _Sync.Set();
+            });
         }
 
         private static void EndPack(IAsyncResult r)
@@ -265,10 +274,19 @@ namespace Server.Misc
 
             _Sync.Reset();
 
-            var t = _Prune.BeginInvoke(threshold, EndPrune, threshold);
+            // Delegate.BeginInvoke is not supported on .NET (Core).
+            var t = System.Threading.Tasks.Task.Run(() => _Prune(threshold));
 
             lock (_TaskRoot)
                 _Tasks.Add(t);
+
+            t.ContinueWith(done =>
+            {
+                lock (_TaskRoot)
+                    _Tasks.Remove(done);
+
+                _Sync.Set();
+            });
         }
 
         private static void EndPrune(IAsyncResult r)
